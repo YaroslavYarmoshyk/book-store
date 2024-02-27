@@ -1,5 +1,6 @@
 package com.online.bookstore;
 
+import lombok.Getter;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -14,7 +15,8 @@ import org.testcontainers.junit.jupiter.Testcontainers;
 class BookStoreApplicationTests {
     @Container
     @ServiceConnection
-    public static PostgreSQLContainer<?> db = new PostgreSQLContainer<>("postgres:16.0");
+    @Getter
+    private static PostgreSQLContainer<?> db = new PostgreSQLContainer<>("postgres:16.0");
 
     @Test
     void contextLoads() {
