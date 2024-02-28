@@ -7,5 +7,12 @@ spring:
     open-in-view: false
     show-sql: true
     hibernate:
-      ddl-auto: create-drop
+      ddl-auto: validate
     database: postgresql
+  flyway:
+    enabled: true
+    user: ${DB_USERNAME}
+    password: ${DB_PASSWORD}
+    baseline-on-migrate: true
+    baseline-description: 'init'
+    baseline-version: 0
