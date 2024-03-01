@@ -29,7 +29,8 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
         final List<String> errors = ex.getBindingResult().getAllErrors().stream()
                 .map(this::getErrorMessage)
                 .toList();
-        return new ResponseEntity<>(getApiError(HttpStatus.BAD_REQUEST, errors), headers, status);
+        final ApiError apiError = getApiError(HttpStatus.BAD_REQUEST, errors);
+        return new ResponseEntity<>(apiError, headers, status);
     }
 
     @ExceptionHandler(value = EntityNotFoundException.class)
