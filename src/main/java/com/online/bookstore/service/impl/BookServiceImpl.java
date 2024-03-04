@@ -29,7 +29,7 @@ public class BookServiceImpl implements BookService {
             final Book book = mapper.toModel(requestDto).setId(id);
             return mapper.toDto(bookRepository.save(book));
         }
-        throw new EntityNotFoundException();
+        throw new EntityNotFoundException("Book by id: " + id + " was not found");
     }
 
     @Override
@@ -50,7 +50,9 @@ public class BookServiceImpl implements BookService {
     public BookDto getBookById(final Long id) {
         return bookRepository.findById(id)
                 .map(mapper::toDto)
-                .orElseThrow(EntityNotFoundException::new);
+                .orElseThrow(
+                        () -> new EntityNotFoundException("Book by id: " + id + " was not found")
+                );
     }
 
 }

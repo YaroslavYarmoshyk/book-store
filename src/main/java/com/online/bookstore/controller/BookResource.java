@@ -3,6 +3,7 @@ package com.online.bookstore.controller;
 import com.online.bookstore.dto.BookDto;
 import com.online.bookstore.dto.CreateBookRequestDto;
 import com.online.bookstore.service.BookService;
+import jakarta.validation.Valid;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -31,7 +32,7 @@ public class BookResource {
     }
 
     @PostMapping
-    public BookDto createBook(final @RequestBody CreateBookRequestDto createBookRequestDto) {
+    public BookDto createBook(final @RequestBody @Valid CreateBookRequestDto createBookRequestDto) {
         return bookService.createBook(createBookRequestDto);
     }
 

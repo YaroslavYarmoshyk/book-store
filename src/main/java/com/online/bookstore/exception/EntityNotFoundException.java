@@ -1,8 +1,13 @@
 package com.online.bookstore.exception;
 
-import org.springframework.http.HttpStatus;
-import org.springframework.web.bind.annotation.ResponseStatus;
+import lombok.Getter;
 
-@ResponseStatus(value = HttpStatus.NOT_FOUND)
+@Getter
 public class EntityNotFoundException extends RuntimeException {
+    private final String message;
+
+    public EntityNotFoundException(final String message) {
+        super(message);
+        this.message = message;
+    }
 }
