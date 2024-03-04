@@ -3,6 +3,7 @@ package com.online.bookstore.service;
 import com.online.bookstore.dto.BookDto;
 import com.online.bookstore.dto.CreateBookRequestDto;
 import java.util.List;
+import org.springframework.data.domain.Pageable;
 
 public interface BookService {
 
@@ -12,7 +13,7 @@ public interface BookService {
 
     BookDto deleteBook(final Long id);
 
-    List<BookDto> getAllBooks();
+    List<BookDto> getAllBooks(final Pageable pageable);
 
     BookDto getBookById(final Long id);
 }
