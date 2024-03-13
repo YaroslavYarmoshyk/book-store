@@ -1,4 +1,4 @@
-package com.online.bookstore.exception;
+package com.online.bookstore.exception.dto;
 
 import java.time.LocalDateTime;
 import java.util.Collection;

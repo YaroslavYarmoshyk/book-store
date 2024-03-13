@@ -8,3 +8,13 @@ CREATE TABLE IF NOT EXISTS book
     description TEXT,
     cover_image TEXT
 );
+
+CREATE TABLE IF NOT EXISTS "user"
+(
+    id BIGSERIAL PRIMARY KEY,
+    email TEXT NOT NULL UNIQUE,
+    password TEXT NOT NULL,
+    first_name TEXT NOT NULL,
+    last_name TEXT NOT NULL,
+    shipping_address TEXT
+);

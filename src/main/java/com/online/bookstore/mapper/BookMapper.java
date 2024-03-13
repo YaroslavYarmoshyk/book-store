@@ -1,6 +1,6 @@
 package com.online.bookstore.mapper;
 
-import com.online.bookstore.config.MapperConfig;
+import com.online.bookstore.config.mapper.MapperConfig;
 import com.online.bookstore.dto.BookDto;
 import com.online.bookstore.dto.CreateBookRequestDto;
 import com.online.bookstore.model.Book;
