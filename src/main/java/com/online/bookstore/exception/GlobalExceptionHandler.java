@@ -1,5 +1,6 @@
 package com.online.bookstore.exception;
 
+import com.online.bookstore.exception.dto.ApiError;
 import java.time.LocalDateTime;
 import java.util.Collection;
 import java.util.Collections;
@@ -33,9 +34,21 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
         return new ResponseEntity<>(apiError, headers, status);
     }
 
+    @ExceptionHandler(value = SystemException.class)
+    protected ResponseEntity<ApiError> handleSystemException(final SystemException ex) {
+        final ApiError apiError = getApiError(ex.getStatus(), ex.getMessage());
+        return new ResponseEntity<>(apiError, HttpStatusCode.valueOf(apiError.code()));
+    }
+
     @ExceptionHandler(value = EntityNotFoundException.class)
     protected ResponseEntity<ApiError> handleEntityNotFound(final EntityNotFoundException ex) {
         final ApiError apiError = getApiError(HttpStatus.NOT_FOUND, ex.getMessage());
+        return new ResponseEntity<>(apiError, HttpStatusCode.valueOf(apiError.code()));
+    }
+
+    @ExceptionHandler(value = RegistrationException.class)
+    protected ResponseEntity<ApiError> handleRegistrationException(final RegistrationException ex) {
+        final ApiError apiError = getApiError(HttpStatus.BAD_REQUEST, ex.getMessage());
         return new ResponseEntity<>(apiError, HttpStatusCode.valueOf(apiError.code()));
     }
 
