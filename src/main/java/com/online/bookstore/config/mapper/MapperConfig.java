@@ -1,4 +1,4 @@
-package com.online.bookstore.config;
+package com.online.bookstore.config.mapper;
 
 import org.mapstruct.InjectionStrategy;
 import org.mapstruct.NullValueCheckStrategy;
