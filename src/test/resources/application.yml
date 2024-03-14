@@ -11,4 +11,4 @@ spring:
     database: postgresql
 
 system-configuration:
-  public-endpoints: /api/auth/register, /swagger-ui/**
+  public-endpoints: /api/auth/register, /swagger-ui/**, /v3/api-docs/**
