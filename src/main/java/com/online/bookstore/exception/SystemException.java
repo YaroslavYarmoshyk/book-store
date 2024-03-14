@@ -13,5 +13,4 @@ public class SystemException extends RuntimeException {
         this.message = message;
         this.status = status;
     }
-
 }

@@ -27,5 +27,4 @@ public class User {
     private String lastName;
     @Column(name = "shipping_address")
     private String shippingAddress;
-
 }

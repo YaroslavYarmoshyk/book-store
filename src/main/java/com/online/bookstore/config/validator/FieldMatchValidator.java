@@ -46,5 +46,4 @@ public class FieldMatchValidator implements ConstraintValidator<FieldMatch, Obje
         }
         throw new SystemException("No such field: " + fieldName, HttpStatus.INTERNAL_SERVER_ERROR);
     }
-
 }

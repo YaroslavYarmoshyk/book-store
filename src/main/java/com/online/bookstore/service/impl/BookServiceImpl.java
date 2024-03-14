@@ -55,5 +55,4 @@ public class BookServiceImpl implements BookService {
                         () -> new EntityNotFoundException("Book by id: " + id + " was not found")
                 );
     }
-
 }

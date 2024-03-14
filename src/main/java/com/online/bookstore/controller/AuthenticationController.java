@@ -20,5 +20,4 @@ public class AuthenticationController {
     public UserResponseDto register(@Valid @RequestBody UserRegistrationRequestDto requestDto) {
         return authenticationService.registerUser(requestDto);
     }
-
 }

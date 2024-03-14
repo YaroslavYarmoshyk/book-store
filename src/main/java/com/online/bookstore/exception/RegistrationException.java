@@ -10,5 +10,4 @@ public class RegistrationException extends RuntimeException {
         super(message);
         this.message = message;
     }
-
 }
