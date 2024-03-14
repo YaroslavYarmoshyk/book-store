@@ -16,3 +16,6 @@ spring:
     baseline-on-migrate: true
     baseline-description: 'init'
     baseline-version: 0
+
+system-configuration:
+  public-endpoints: /api/auth/register, /swagger-ui/**
