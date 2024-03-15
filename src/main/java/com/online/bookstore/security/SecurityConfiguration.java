@@ -36,7 +36,7 @@ public class SecurityConfiguration {
     }
 
     @Bean
-    static GrantedAuthorityDefaults grantedAuthorityDefaults() {
+    public GrantedAuthorityDefaults grantedAuthorityDefaults() {
         return new GrantedAuthorityDefaults("");
     }
 
