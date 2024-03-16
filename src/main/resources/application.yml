@@ -17,5 +17,9 @@ spring:
     baseline-description: 'init'
     baseline-version: 0
 
+jwt:
+  expirationTime: 86_400_000 # 24 hours in milliseconds
+  secretKey: strongsecretkey2323232egfewgwerggergergrferfe3!
+
 system-configuration:
-  public-endpoints: /api/auth/register, /swagger-ui/**, /v3/api-docs/**
+  public-endpoints: /api/auth/**, /swagger-ui/**, /v3/api-docs/**
