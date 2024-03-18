@@ -8,11 +8,15 @@ import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.experimental.Accessors;
+import org.hibernate.annotations.SQLDelete;
 
 @Getter
 @Setter
+@Accessors(chain = true)
 @Entity
 @Table(name = "categories")
+@SQLDelete(sql = "UPDATE categories SET is_deleted = true WHERE id=?")
 public class Category {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -21,4 +25,6 @@ public class Category {
     @Column(name = "name", nullable = false)
     private String name;
     private String description;
+    @Column(name = "is_deleted", nullable = false)
+    private boolean isDeleted;
 }

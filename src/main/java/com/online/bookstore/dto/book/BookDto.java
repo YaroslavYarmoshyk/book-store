@@ -1,6 +1,7 @@
 package com.online.bookstore.dto.book;
 
 import java.math.BigDecimal;
+import java.util.Set;
 
 public record BookDto(
         Long id,
@@ -9,6 +10,7 @@ public record BookDto(
         String isbn,
         BigDecimal price,
         String description,
-        String coverImage
+        String coverImage,
+        Set<Long> categoryIds
 ) {
 }

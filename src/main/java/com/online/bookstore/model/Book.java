@@ -16,6 +16,7 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 import lombok.experimental.Accessors;
+import org.hibernate.annotations.SQLDelete;
 
 @Getter
 @Setter
@@ -26,6 +27,7 @@ import lombok.experimental.Accessors;
         name = "findAllByCategoryId",
         query = "FROM Book b JOIN FETCH b.categories c WHERE c.id =:categoryId"
 )
+@SQLDelete(sql = "UPDATE books SET is_deleted = true WHERE id=?")
 public class Book {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -49,4 +51,6 @@ public class Book {
             inverseJoinColumns = @JoinColumn(name = "category_id")
     )
     private Set<Category> categories;
+    @Column(name = "is_deleted", nullable = false)
+    private boolean isDeleted;
 }

@@ -22,4 +22,4 @@ jwt:
   secretKey: strongsecretkey2323232egfewgwerggergergrferfe3!
 
 system-configuration:
-  public-endpoints: /api/auth/**, /swagger-ui/**, /v3/api-docs/**
+  public-endpoints: /api/auth/**, /swagger-ui/**, /v3/api-docs/**, /error

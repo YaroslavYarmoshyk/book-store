@@ -49,7 +49,7 @@ public class CategoryResource {
             summary = "Create a new category",
             description = "Create a new category"
     )
-    public CategoryDto createCategory(final @Valid @RequestBody CreateCategoryRequestDto requestDto) {
+    public CategoryDto createCategory(@Valid @RequestBody CreateCategoryRequestDto requestDto) {
         return categoryService.createCategory(requestDto);
     }
 
@@ -59,8 +59,8 @@ public class CategoryResource {
             summary = "Update category by ID",
             description = "Update category by ID"
     )
-    public CategoryDto updateCategory(final @PathVariable(value = "id") Long id,
-                                      final @Valid @RequestBody CreateCategoryRequestDto requestDto) {
+    public CategoryDto updateCategory(@PathVariable(value = "id") Long id,
+                                      @Valid @RequestBody CreateCategoryRequestDto requestDto) {
         return categoryService.updateCategory(id, requestDto);
     }
 
