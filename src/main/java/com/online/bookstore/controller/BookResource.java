@@ -19,10 +19,10 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-@Tag(name = "Book management", description = "Endpoint for managing books")
 @RestController
 @RequestMapping(value = "/api/books")
 @RequiredArgsConstructor
+@Tag(name = "Book management", description = "Endpoint for managing books")
 public class BookResource {
     private final BookService bookService;
 
@@ -41,16 +41,16 @@ public class BookResource {
     @AdminAccessLevel
     @PostMapping
     @Operation(summary = "Create a new book", description = "Create a new book")
-    public BookDto createBook(final @RequestBody @Valid CreateBookRequestDto createBookRequestDto) {
-        return bookService.createBook(createBookRequestDto);
+    public BookDto createBook(final @RequestBody @Valid CreateBookRequestDto requestDto) {
+        return bookService.createBook(requestDto);
     }
 
     @AdminAccessLevel
     @PutMapping(value = "/{id}")
     @Operation(summary = "Update book by ID", description = "Update specific book")
     public BookDto updateBook(final @PathVariable(value = "id") Long id,
-                              final @RequestBody CreateBookRequestDto createBookRequestDto) {
-        return bookService.updateBook(id, createBookRequestDto);
+                              final @RequestBody CreateBookRequestDto requestDto) {
+        return bookService.updateBook(id, requestDto);
     }
 
     @AdminAccessLevel
