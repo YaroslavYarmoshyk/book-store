@@ -1,5 +1,6 @@
 package com.online.bookstore.controller;
 
+import com.online.bookstore.annotation.AdminAccessLevel;
 import com.online.bookstore.dto.BookDto;
 import com.online.bookstore.dto.CreateBookRequestDto;
 import com.online.bookstore.service.BookService;
@@ -37,12 +38,14 @@ public class BookResource {
         return bookService.getBookById(id);
     }
 
+    @AdminAccessLevel
     @PostMapping
     @Operation(summary = "Create a new book", description = "Create a new book")
     public BookDto createBook(final @RequestBody @Valid CreateBookRequestDto createBookRequestDto) {
         return bookService.createBook(createBookRequestDto);
     }
 
+    @AdminAccessLevel
     @PutMapping(value = "/{id}")
     @Operation(summary = "Update book by ID", description = "Update specific book")
     public BookDto updateBook(final @PathVariable(value = "id") Long id,
@@ -50,6 +53,7 @@ public class BookResource {
         return bookService.updateBook(id, createBookRequestDto);
     }
 
+    @AdminAccessLevel
     @DeleteMapping(value = "/{id}")
     @Operation(summary = "Delete book by ID", description = "Delete specific book")
     public BookDto deleteBook(final @PathVariable(value = "id") Long id) {
