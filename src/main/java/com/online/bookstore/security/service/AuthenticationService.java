@@ -1,9 +1,9 @@
 package com.online.bookstore.security.service;
 
-import com.online.bookstore.dto.UserLoginRequestDto;
-import com.online.bookstore.dto.UserLoginResponseDto;
-import com.online.bookstore.dto.UserRegistrationRequestDto;
-import com.online.bookstore.dto.UserResponseDto;
+import com.online.bookstore.dto.user.UserLoginRequestDto;
+import com.online.bookstore.dto.user.UserLoginResponseDto;
+import com.online.bookstore.dto.user.UserRegistrationRequestDto;
+import com.online.bookstore.dto.user.UserResponseDto;
 
 public interface AuthenticationService {
 

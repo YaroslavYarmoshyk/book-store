@@ -1,8 +1,8 @@
 package com.online.bookstore.service;
 
-import com.online.bookstore.dto.BookWithoutCategoriesDto;
-import com.online.bookstore.dto.CategoryDto;
-import com.online.bookstore.dto.CreateCategoryRequestDto;
+import com.online.bookstore.dto.book.BookWithoutCategoriesDto;
+import com.online.bookstore.dto.category.CategoryDto;
+import com.online.bookstore.dto.category.CreateCategoryRequestDto;
 import java.util.List;
 import org.springframework.data.domain.Pageable;
 

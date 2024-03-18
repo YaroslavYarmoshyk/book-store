@@ -1,4 +1,4 @@
-package com.online.bookstore.dto;
+package com.online.bookstore.dto.category;
 
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;

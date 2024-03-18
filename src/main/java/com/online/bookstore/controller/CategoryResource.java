@@ -1,9 +1,9 @@
 package com.online.bookstore.controller;
 
 import com.online.bookstore.annotation.AdminAccessLevel;
-import com.online.bookstore.dto.BookWithoutCategoriesDto;
-import com.online.bookstore.dto.CategoryDto;
-import com.online.bookstore.dto.CreateCategoryRequestDto;
+import com.online.bookstore.dto.book.BookWithoutCategoriesDto;
+import com.online.bookstore.dto.category.CategoryDto;
+import com.online.bookstore.dto.category.CreateCategoryRequestDto;
 import com.online.bookstore.service.CategoryService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;

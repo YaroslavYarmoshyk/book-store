@@ -1,8 +1,8 @@
 package com.online.bookstore.controller;
 
 import com.online.bookstore.annotation.AdminAccessLevel;
-import com.online.bookstore.dto.BookDto;
-import com.online.bookstore.dto.CreateBookRequestDto;
+import com.online.bookstore.dto.book.BookDto;
+import com.online.bookstore.dto.book.CreateBookRequestDto;
 import com.online.bookstore.service.BookService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;

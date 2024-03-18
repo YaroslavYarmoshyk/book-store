@@ -1,4 +1,4 @@
-package com.online.bookstore.dto;
+package com.online.bookstore.dto.category;
 
 public record CategoryDto(Long id, String name, String description) {
 }
