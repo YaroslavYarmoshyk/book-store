@@ -1,8 +1,10 @@
 package com.online.bookstore.controller;
 
+import com.online.bookstore.dto.UserLoginRequestDto;
+import com.online.bookstore.dto.UserLoginResponseDto;
 import com.online.bookstore.dto.UserRegistrationRequestDto;
 import com.online.bookstore.dto.UserResponseDto;
-import com.online.bookstore.service.AuthenticationService;
+import com.online.bookstore.security.service.AuthenticationService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
@@ -22,6 +24,12 @@ public class AuthenticationController {
     @PostMapping(value = "/register")
     @Operation(summary = "Register a new user", description = "Register a new user")
     public UserResponseDto register(@Valid @RequestBody UserRegistrationRequestDto requestDto) {
-        return authenticationService.registerUser(requestDto);
+        return authenticationService.register(requestDto);
+    }
+
+    @PostMapping(value = "/login")
+    @Operation(summary = "Login a user", description = "Login a user")
+    public UserLoginResponseDto login(@Valid @RequestBody UserLoginRequestDto requestDto) {
+        return authenticationService.login(requestDto);
     }
 }
