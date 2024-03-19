@@ -1,8 +1,9 @@
 package com.online.bookstore.service;
 
 import com.online.bookstore.dto.book.BookDto;
+import com.online.bookstore.dto.book.BookWithoutCategoriesDto;
 import com.online.bookstore.dto.book.CreateBookRequestDto;
-import java.util.List;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
 public interface BookService {
@@ -13,7 +14,10 @@ public interface BookService {
 
     BookDto deleteBook(final Long id);
 
-    List<BookDto> getAllBooks(final Pageable pageable);
+    Page<BookDto> getAllBooks(final Pageable pageable);
 
     BookDto getBookById(final Long id);
+
+    Page<BookWithoutCategoriesDto> getAllBooksByCategoryId(final Pageable pageable,
+                                                           final Long categoryId);
 }

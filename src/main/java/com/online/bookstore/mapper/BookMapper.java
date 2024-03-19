@@ -6,6 +6,7 @@ import com.online.bookstore.dto.book.BookWithoutCategoriesDto;
 import com.online.bookstore.dto.book.CreateBookRequestDto;
 import com.online.bookstore.model.Book;
 import com.online.bookstore.model.Category;
+import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 import org.mapstruct.Mapper;
@@ -16,6 +17,9 @@ public interface BookMapper {
 
     @Mapping(target = "categoryIds", source = "categories")
     BookDto toDto(final Book book);
+
+    @Mapping(target = "categoryIds", source = "categories")
+    List<BookDto> toDto(final List<Book> books);
 
     default Set<Long> mapCategoriesToIds(final Set<Category> categories) {
         return categories.stream()

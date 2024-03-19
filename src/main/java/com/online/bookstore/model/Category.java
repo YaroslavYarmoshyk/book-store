@@ -10,6 +10,7 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.Accessors;
 import org.hibernate.annotations.SQLDelete;
+import org.hibernate.annotations.SQLRestriction;
 
 @Getter
 @Setter
@@ -17,6 +18,7 @@ import org.hibernate.annotations.SQLDelete;
 @Entity
 @Table(name = "categories")
 @SQLDelete(sql = "UPDATE categories SET is_deleted = true WHERE id=?")
+@SQLRestriction(value = "is_deleted <> 'true'")
 public class Category {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

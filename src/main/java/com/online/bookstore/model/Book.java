@@ -8,7 +8,6 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToMany;
-import jakarta.persistence.NamedQuery;
 import jakarta.persistence.Table;
 import java.math.BigDecimal;
 import java.util.Set;
@@ -17,17 +16,15 @@ import lombok.Setter;
 import lombok.ToString;
 import lombok.experimental.Accessors;
 import org.hibernate.annotations.SQLDelete;
+import org.hibernate.annotations.SQLRestriction;
 
 @Getter
 @Setter
 @Entity
 @Accessors(chain = true)
 @Table(name = "books")
-@NamedQuery(
-        name = "findAllByCategoryId",
-        query = "FROM Book b JOIN FETCH b.categories c WHERE c.id =:categoryId"
-)
 @SQLDelete(sql = "UPDATE books SET is_deleted = true WHERE id=?")
+@SQLRestriction(value = "is_deleted <> 'true'")
 public class Book {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

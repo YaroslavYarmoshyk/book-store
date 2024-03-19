@@ -1,6 +1,7 @@
 package com.online.bookstore.service.impl;
 
 import com.online.bookstore.dto.book.BookDto;
+import com.online.bookstore.dto.book.BookWithoutCategoriesDto;
 import com.online.bookstore.dto.book.CreateBookRequestDto;
 import com.online.bookstore.exception.EntityNotFoundException;
 import com.online.bookstore.mapper.BookMapper;
@@ -9,6 +10,8 @@ import com.online.bookstore.repository.BookRepository;
 import com.online.bookstore.service.BookService;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
@@ -41,10 +44,13 @@ public class BookServiceImpl implements BookService {
     }
 
     @Override
-    public List<BookDto> getAllBooks(final Pageable pageable) {
-        return bookRepository.findAll(pageable).stream()
-                .map(mapper::toDto)
+    public Page<BookDto> getAllBooks(final Pageable pageable) {
+        final Page<Book> bookPage = bookRepository.findAll(pageable);
+        final List<Long> bookIds = bookPage.stream()
+                .map(Book::getId)
                 .toList();
+        final List<BookDto> booksByIds = mapper.toDto(bookRepository.findAllByIdIn(bookIds));
+        return new PageImpl<>(booksByIds, pageable, bookPage.getTotalElements());
     }
 
     @Override
@@ -54,5 +60,12 @@ public class BookServiceImpl implements BookService {
                 .orElseThrow(
                         () -> new EntityNotFoundException("Book by id: " + id + " was not found")
                 );
+    }
+
+    @Override
+    public Page<BookWithoutCategoriesDto> getAllBooksByCategoryId(final Pageable pageable,
+                                                                  final Long categoryId) {
+        return bookRepository.findAllByCategoryId(pageable, categoryId)
+                .map(mapper::toDtoWithoutCategories);
     }
 }
