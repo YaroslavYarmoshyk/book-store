@@ -38,7 +38,7 @@ public class CategoryResource {
 
     @GetMapping(value = "/{id}")
     @Operation(summary = "Get category by ID", description = "Get specific category")
-    public CategoryDto getAllCategories(final @PathVariable Long id) {
+    public CategoryDto getCategoryById(final @PathVariable Long id) {
         return categoryService.getCategoryById(id);
     }
 

@@ -5,7 +5,6 @@ import com.online.bookstore.dto.category.CreateCategoryRequestDto;
 import java.util.List;
 
 public interface CategoryService {
-
     CategoryDto createCategory(final CreateCategoryRequestDto requestDto);
 
     CategoryDto updateCategory(final Long categoryId,

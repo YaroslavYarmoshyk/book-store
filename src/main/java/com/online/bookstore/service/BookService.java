@@ -7,7 +7,6 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
 public interface BookService {
-
     BookDto createBook(final CreateBookRequestDto requestDto);
 
     BookDto updateBook(final Long id, final CreateBookRequestDto requestDto);
