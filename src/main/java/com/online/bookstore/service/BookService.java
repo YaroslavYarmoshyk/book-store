@@ -1,19 +1,22 @@
 package com.online.bookstore.service;
 
-import com.online.bookstore.dto.BookDto;
-import com.online.bookstore.dto.CreateBookRequestDto;
-import java.util.List;
+import com.online.bookstore.dto.book.BookDto;
+import com.online.bookstore.dto.book.BookWithoutCategoriesDto;
+import com.online.bookstore.dto.book.CreateBookRequestDto;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
 public interface BookService {
-
     BookDto createBook(final CreateBookRequestDto requestDto);
 
     BookDto updateBook(final Long id, final CreateBookRequestDto requestDto);
 
     BookDto deleteBook(final Long id);
 
-    List<BookDto> getAllBooks(final Pageable pageable);
+    Page<BookDto> getAllBooks(final Pageable pageable);
 
     BookDto getBookById(final Long id);
+
+    Page<BookWithoutCategoriesDto> getAllBooksByCategoryId(final Pageable pageable,
+                                                           final Long categoryId);
 }

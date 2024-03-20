@@ -1,4 +1,9 @@
 spring:
+  data:
+    web:
+      pageable:
+        one-indexed-parameters: true
+        default-page-size: 5
   datasource:
     username: ${DB_USERNAME}
     password: ${DB_PASSWORD}
@@ -22,4 +27,4 @@ jwt:
   secretKey: strongsecretkey2323232egfewgwerggergergrferfe3!
 
 system-configuration:
-  public-endpoints: /api/auth/**, /swagger-ui/**, /v3/api-docs/**
+  public-endpoints: /api/auth/**, /swagger-ui/**, /v3/api-docs/**, /error
