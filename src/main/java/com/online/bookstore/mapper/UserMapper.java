@@ -10,7 +10,6 @@ import org.mapstruct.Named;
 
 @Mapper(config = MapperConfig.class)
 public interface UserMapper {
-
     UserResponseDto toDto(final User user);
 
     User toModel(final UserRegistrationRequestDto registrationDto);

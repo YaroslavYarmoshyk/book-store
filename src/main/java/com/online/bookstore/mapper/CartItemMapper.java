@@ -13,7 +13,6 @@ import org.mapstruct.MappingTarget;
 
 @Mapper(config = MapperConfig.class, uses = BookMapper.class)
 public interface CartItemMapper {
-
     @Mapping(source = "book.id", target = "bookId")
     @Mapping(source = "book.title", target = "bookTitle")
     CartItemDto toDto(final CartItem cartItem);
