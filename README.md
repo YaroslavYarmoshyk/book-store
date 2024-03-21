@@ -25,6 +25,12 @@ The Book Store Spring Boot Application is designed to facilitate user registrati
   - Remove Category: Admins can remove a category by sending a DELETE request to `/api/categories/{id}`.
   - Retrieve Books by Category: Admins and users can retrieve books by a specific category by sending a GET request to `/api/categories/{id}/books`.
 
+- **Shopping Cart Management (User Use Cases)**: Users can manage their shopping carts, including adding, viewing, updating, and removing items. They can:
+  - Send a POST request to `/api/cart` to add a book to the shopping cart.
+  - Send a GET request to `/api/cart` to retrieve their shopping cart.
+  - Send a PUT request to `/api/cart/cart-items/{cartItemId}` to update the quantity of a book in the shopping cart.
+  - Send a DELETE request to `/api/cart/cart-items/{cartItemId}` to remove a book from the shopping cart.
+
 ## Test Users
 
 - **User**:
