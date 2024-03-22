@@ -9,7 +9,6 @@ import org.mapstruct.Mapper;
 
 @Mapper(config = MapperConfig.class)
 public interface CategoryMapper {
-
     CategoryDto toDto(final Category category);
 
     List<CategoryDto> toDto(final List<Category> categories);
