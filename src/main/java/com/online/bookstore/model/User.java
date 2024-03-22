@@ -11,6 +11,7 @@ import jakarta.persistence.ManyToMany;
 import jakarta.persistence.Table;
 import java.util.Collection;
 import java.util.Set;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -23,6 +24,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 @Getter
 @Setter
+@EqualsAndHashCode(of = "id")
 @Entity
 @Accessors(chain = true)
 @Table(name = "users")

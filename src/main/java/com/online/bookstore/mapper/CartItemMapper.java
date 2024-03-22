@@ -19,10 +19,6 @@ public interface CartItemMapper {
 
     Set<CartItemDto> toDto(final Set<CartItem> cartItems);
 
-    @Mapping(target = "book", source = "cartItemDto.bookId", qualifiedByName = "bookFromId")
-    @Mapping(target = "shoppingCart", ignore = true)
-    CartItem toModel(final CartItemDto cartItemDto, final Long shoppingCartId);
-
     @Mapping(target = "book", source = "requestDto.bookId", qualifiedByName = "bookFromId")
     @Mapping(target = "shoppingCart", ignore = true)
     CartItem toModel(final CreateCartItemRequestDto requestDto, final Long shoppingCartId);

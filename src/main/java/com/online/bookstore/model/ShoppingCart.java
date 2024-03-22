@@ -1,5 +1,6 @@
 package com.online.bookstore.model;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -11,6 +12,7 @@ import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import java.util.HashSet;
 import java.util.Set;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -21,6 +23,7 @@ import org.hibernate.annotations.SQLRestriction;
 @Getter
 @Setter
 @Accessors(chain = true)
+@EqualsAndHashCode(of = "id")
 @Entity
 @Table(name = "shopping_carts")
 @SQLDelete(sql = "UPDATE shopping_carts SET is_deleted = true WHERE id=?")
@@ -34,7 +37,7 @@ public class ShoppingCart {
     @JoinColumn(name = "user_id")
     private User user;
     @ToString.Exclude
-    @OneToMany(mappedBy = "shoppingCart")
+    @OneToMany(mappedBy = "shoppingCart", cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<CartItem> cartItems = new HashSet<>();
     @Column(name = "is_deleted", nullable = false)
     private boolean isDeleted;

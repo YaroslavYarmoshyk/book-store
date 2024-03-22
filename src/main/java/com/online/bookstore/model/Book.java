@@ -11,6 +11,7 @@ import jakarta.persistence.ManyToMany;
 import jakarta.persistence.Table;
 import java.math.BigDecimal;
 import java.util.Set;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -20,8 +21,9 @@ import org.hibernate.annotations.SQLRestriction;
 
 @Getter
 @Setter
-@Entity
 @Accessors(chain = true)
+@EqualsAndHashCode(of = "id")
+@Entity
 @Table(name = "books")
 @SQLDelete(sql = "UPDATE books SET is_deleted = true WHERE id=?")
 @SQLRestriction(value = "is_deleted <> 'true'")
