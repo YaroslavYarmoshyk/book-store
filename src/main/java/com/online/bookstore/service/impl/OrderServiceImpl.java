@@ -54,7 +54,7 @@ public class OrderServiceImpl implements OrderService {
         final ShoppingCartDto cartByUserId = shoppingCartService.getCartByUserId(userId);
         validateShoppingCart(cartByUserId);
 
-        final Set<OrderItem> orderItems = getOrderItems(cartByUserId);
+        final Set<OrderItem> orderItems = getOrderItems(cartByUserId.cartItems());
         final Order order = getOrder(userId, requestDto.shippingAddress(), orderItems);
         final Order savedOrder = orderRepository.save(order);
 
@@ -82,9 +82,9 @@ public class OrderServiceImpl implements OrderService {
         }
     }
 
-    private Set<OrderItem> getOrderItems(final ShoppingCartDto shoppingCart) {
-        final Map<Long, BigDecimal> bookPrices = getBookPrices(shoppingCart.cartItems());
-        return shoppingCart.cartItems().stream()
+    private Set<OrderItem> getOrderItems(final List<CartItemDto> cartItems) {
+        final Map<Long, BigDecimal> bookPrices = getBookPrices(cartItems);
+        return cartItems.stream()
                 .map(cartItem -> orderItemMapper.toModel(
                         cartItem,
                         bookPrices.get(cartItem.bookId())
