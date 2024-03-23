@@ -17,18 +17,16 @@ import org.hibernate.annotations.SQLRestriction;
 @Getter
 @Setter
 @Accessors(chain = true)
-@EqualsAndHashCode(callSuper = true)
+@ToString(exclude = {"order", "book"})
+@EqualsAndHashCode(exclude = {"order", "book"}, callSuper = true)
 @Entity
 @Table(name = "order_items")
 @SQLDelete(sql = "UPDATE order_items SET is_deleted = true WHERE id=?")
 @SQLRestriction(value = "is_deleted <> 'true'")
 public class OrderItem extends BaseEntity {
-    @ToString.Exclude
-    @EqualsAndHashCode.Exclude
     @ManyToOne
     @JoinColumn(name = "order_id", nullable = false)
     private Order order;
-    @ToString.Exclude
     @ManyToOne
     @JoinColumn(name = "book_id", nullable = false)
     private Book book;

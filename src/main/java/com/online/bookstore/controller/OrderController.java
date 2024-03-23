@@ -4,7 +4,6 @@ import com.online.bookstore.annotation.AdminAccessLevel;
 import com.online.bookstore.annotation.CurrentUserId;
 import com.online.bookstore.dto.order.CreateOrderRequestDto;
 import com.online.bookstore.dto.order.OrderDto;
-import com.online.bookstore.dto.order.OrderItemDto;
 import com.online.bookstore.dto.order.UpdateOrderStatusRequestDto;
 import com.online.bookstore.service.OrderService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -24,7 +23,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping(value = "/api/orders")
 @RequiredArgsConstructor
 @Tag(name = "Order management", description = "Endpoint for managing orders")
-public class OrderResource {
+public class OrderController {
     private final OrderService orderService;
 
     @GetMapping
@@ -49,24 +48,5 @@ public class OrderResource {
     public OrderDto updateOrderStatus(final @PathVariable Long id,
                                       final @RequestBody UpdateOrderStatusRequestDto status) {
         return orderService.updateOrderStatus(id, status);
-    }
-
-    @GetMapping(value = "/{order-id}/items")
-    @Operation(
-            summary = "Get order items by order ID",
-            description = "Get order items by order ID"
-    )
-    public List<OrderItemDto> getOrderItems(final @PathVariable(value = "order-id") Long orderId) {
-        return orderService.getItemsByOrderId(orderId);
-    }
-
-    @GetMapping(value = "/{order-id}/items/{item-id}")
-    @Operation(
-            summary = "Get order item by order ID",
-            description = "Get order item by order ID"
-    )
-    public OrderItemDto getOrderItem(final @PathVariable(value = "order-id") Long orderId,
-                                     final @PathVariable(value = "item-id") Long itemId) {
-        return orderService.getItemByOrderId(orderId, itemId);
     }
 }

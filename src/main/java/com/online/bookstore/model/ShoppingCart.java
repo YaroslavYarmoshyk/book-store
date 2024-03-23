@@ -19,17 +19,16 @@ import org.hibernate.annotations.SQLRestriction;
 @Getter
 @Setter
 @Accessors(chain = true)
+@ToString(exclude = {"user", "cartItems"})
+@EqualsAndHashCode(exclude = {"user", "cartItems"}, callSuper = true)
 @Entity
 @Table(name = "shopping_carts")
 @SQLDelete(sql = "UPDATE shopping_carts SET is_deleted = true WHERE id=?")
 @SQLRestriction(value = "is_deleted <> 'true'")
 public class ShoppingCart extends BaseEntity {
-    @ToString.Exclude
     @OneToOne
     @JoinColumn(name = "user_id")
     private User user;
-    @ToString.Exclude
-    @EqualsAndHashCode.Exclude
     @OneToMany(mappedBy = "shoppingCart", cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<CartItem> cartItems = new HashSet<>();
 }

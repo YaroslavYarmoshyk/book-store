@@ -8,6 +8,7 @@ import jakarta.persistence.ManyToMany;
 import jakarta.persistence.Table;
 import java.util.Collection;
 import java.util.Set;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -21,6 +22,8 @@ import org.springframework.security.core.userdetails.UserDetails;
 @Getter
 @Setter
 @Accessors(chain = true)
+@ToString(exclude = "roles", callSuper = true)
+@EqualsAndHashCode(exclude = "roles", callSuper = true)
 @Entity
 @Table(name = "users")
 @SQLDelete(sql = "UPDATE users SET is_deleted = true WHERE id=?")
@@ -36,7 +39,6 @@ public class User extends BaseEntity implements UserDetails {
     private String lastName;
     @Column(name = "shipping_address")
     private String shippingAddress;
-    @ToString.Exclude
     @ManyToMany
     @JoinTable(
             name = "users_roles",

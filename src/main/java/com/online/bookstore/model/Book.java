@@ -8,6 +8,7 @@ import jakarta.persistence.ManyToMany;
 import jakarta.persistence.Table;
 import java.math.BigDecimal;
 import java.util.Set;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -18,6 +19,8 @@ import org.hibernate.annotations.SQLRestriction;
 @Getter
 @Setter
 @Accessors(chain = true)
+@ToString(exclude = "categories")
+@EqualsAndHashCode(exclude = "categories", callSuper = true)
 @Entity
 @Table(name = "books")
 @SQLDelete(sql = "UPDATE books SET is_deleted = true WHERE id=?")
@@ -34,7 +37,6 @@ public class Book extends BaseEntity {
     private String description;
     @Column(name = "cover_image")
     private String coverImage;
-    @ToString.Exclude
     @ManyToMany
     @JoinTable(
             name = "books_categories",

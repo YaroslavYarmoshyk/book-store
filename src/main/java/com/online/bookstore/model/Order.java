@@ -17,21 +17,21 @@ import java.util.Set;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 import lombok.experimental.Accessors;
-import org.apache.commons.lang3.builder.ToStringExclude;
 import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.SQLRestriction;
 
 @Getter
 @Setter
 @Accessors(chain = true)
-@EqualsAndHashCode(callSuper = true)
+@ToString(exclude = {"user", "orderItems"})
+@EqualsAndHashCode(exclude = {"user", "orderItems"}, callSuper = true)
 @Entity
 @Table(name = "orders")
 @SQLDelete(sql = "UPDATE orders SET is_deleted = true WHERE id=?")
 @SQLRestriction(value = "is_deleted <> 'true'")
 public class Order extends BaseEntity {
-    @ToStringExclude
     @ManyToOne
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
@@ -44,8 +44,6 @@ public class Order extends BaseEntity {
     private LocalDateTime orderDate;
     @Column(name = "shipping_address", nullable = false)
     private String shippingAddress;
-    @ToStringExclude
-    @EqualsAndHashCode.Exclude
     @OneToMany(mappedBy = "order", cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<OrderItem> orderItems = new HashSet<>();
 

@@ -7,7 +7,6 @@ import com.online.bookstore.dto.cart.CartItemDto;
 import com.online.bookstore.dto.cart.ShoppingCartDto;
 import com.online.bookstore.dto.order.CreateOrderRequestDto;
 import com.online.bookstore.dto.order.OrderDto;
-import com.online.bookstore.dto.order.OrderItemDto;
 import com.online.bookstore.dto.order.UpdateOrderStatusRequestDto;
 import com.online.bookstore.exception.EntityNotFoundException;
 import com.online.bookstore.exception.SystemException;
@@ -25,7 +24,6 @@ import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Map;
-import java.util.Objects;
 import java.util.Set;
 import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
@@ -67,7 +65,8 @@ public class OrderServiceImpl implements OrderService {
                                   final String shippingAddress,
                                   final Set<OrderItem> orderItems) {
         final User user = new User().setId(userId);
-        return new Order().setUser(user)
+        return new Order()
+                .setUser(user)
                 .setStatus(OrderStatus.PENDING)
                 .setTotal(calculateOrderTotal(orderItems))
                 .setOrderDate(LocalDateTime.now(DEFAULT_ZONE_ID))
@@ -113,30 +112,12 @@ public class OrderServiceImpl implements OrderService {
     @Override
     public OrderDto updateOrderStatus(final Long orderId,
                                       final UpdateOrderStatusRequestDto requestDto) {
-        final Order orderById = getOrderEntityById(orderId);
+        final Order orderById = getOrderById(orderId);
         orderById.setStatus(requestDto.status());
         return orderMapper.toDto(orderRepository.save(orderById));
     }
 
-    @Override
-    public OrderItemDto getItemByOrderId(final Long orderId, final Long itemId) {
-        final Order orderById = getOrderEntityById(orderId);
-        return orderById.getOrderItems().stream()
-                .filter(orderItem -> Objects.equals(orderItem.getId(), itemId))
-                .map(orderItemMapper::toDto)
-                .findFirst()
-                .orElseThrow(() -> new EntityNotFoundException(
-                        "Cannot find item by ID: " + itemId + " in order by ID: " + orderId
-                ));
-    }
-
-    @Override
-    public List<OrderItemDto> getItemsByOrderId(final Long orderId) {
-        final Order orderById = getOrderEntityById(orderId);
-        return orderItemMapper.toDto(orderById.getOrderItems());
-    }
-
-    private Order getOrderEntityById(final Long orderId) {
+    private Order getOrderById(final Long orderId) {
         return orderRepository.findById(orderId)
                 .orElseThrow(() -> new EntityNotFoundException(
                         "Cannot find order by ID: " + orderId
