@@ -3,6 +3,7 @@ package com.online.bookstore.controller;
 import com.online.bookstore.dto.order.OrderItemDto;
 import com.online.bookstore.service.OrderItemService;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -13,6 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping(value = "/api/order-items")
 @RequiredArgsConstructor
+@Tag(name = "Order items management", description = "Endpoint for managing order items")
 public class OrderItemController {
     private final OrderItemService orderItemService;
 
