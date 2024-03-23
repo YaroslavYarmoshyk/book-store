@@ -5,7 +5,10 @@ import com.online.bookstore.dto.cart.CartItemDto;
 import com.online.bookstore.dto.cart.CreateCartItemRequestDto;
 import com.online.bookstore.model.CartItem;
 import com.online.bookstore.model.ShoppingCart;
+import java.util.Comparator;
+import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 import org.mapstruct.AfterMapping;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
@@ -17,7 +20,12 @@ public interface CartItemMapper {
     @Mapping(source = "book.title", target = "bookTitle")
     CartItemDto toDto(final CartItem cartItem);
 
-    Set<CartItemDto> toDto(final Set<CartItem> cartItems);
+    default List<CartItemDto> toDto(final Set<CartItem> cartItems) {
+        return cartItems.stream()
+                .sorted(Comparator.comparing(CartItem::getId))
+                .map(this::toDto)
+                .collect(Collectors.toList());
+    }
 
     @Mapping(target = "book", source = "requestDto.bookId", qualifiedByName = "bookFromId")
     @Mapping(target = "shoppingCart", ignore = true)

@@ -3,6 +3,7 @@ package com.online.bookstore.service.impl;
 import com.online.bookstore.dto.cart.CreateCartItemRequestDto;
 import com.online.bookstore.dto.cart.ShoppingCartDto;
 import com.online.bookstore.dto.cart.UpdateCartItemRequestDto;
+import com.online.bookstore.exception.EntityNotFoundException;
 import com.online.bookstore.exception.SystemException;
 import com.online.bookstore.mapper.CartItemMapper;
 import com.online.bookstore.mapper.ShoppingCartMapper;
@@ -72,6 +73,16 @@ public class ShoppingCartServiceImpl implements ShoppingCartService {
         final ShoppingCart updatedCart = shoppingCartRepository.save(cartByUserId);
 
         return shoppingCartMapper.toDto(updatedCart);
+    }
+
+    @Override
+    public void releaseCart(final Long shoppingCartId) {
+        final ShoppingCart shoppingCart = shoppingCartRepository.findById(shoppingCartId)
+                .orElseThrow(() -> new EntityNotFoundException(
+                        "Cannot find shopping cart by ID: " + shoppingCartId
+                ));
+        shoppingCart.getCartItems().clear();
+        shoppingCartRepository.save(shoppingCart);
     }
 
     private ShoppingCart getCartEntityByUserId(final Long userId) {
