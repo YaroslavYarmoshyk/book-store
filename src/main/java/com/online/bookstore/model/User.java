@@ -36,8 +36,6 @@ public class User extends BaseEntity implements UserDetails {
     private String lastName;
     @Column(name = "shipping_address")
     private String shippingAddress;
-    @Column(name = "is_deleted")
-    private boolean isDeleted;
     @ToString.Exclude
     @ManyToMany
     @JoinTable(
@@ -81,6 +79,6 @@ public class User extends BaseEntity implements UserDetails {
 
     @Override
     public boolean isEnabled() {
-        return !isDeleted;
+        return !super.isDeleted();
     }
 }

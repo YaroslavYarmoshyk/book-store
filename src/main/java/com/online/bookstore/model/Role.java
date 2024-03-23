@@ -21,6 +21,4 @@ public class Role extends BaseEntity {
     @Column(name = "name", nullable = false, unique = true)
     @Enumerated(value = EnumType.STRING)
     private RoleName roleName;
-    @Column(name = "is_deleted")
-    private boolean isDeleted;
 }

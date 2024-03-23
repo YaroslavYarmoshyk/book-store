@@ -1,5 +1,6 @@
 package com.online.bookstore.model;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -17,6 +18,8 @@ public class BaseEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    @Column(name = "is_deleted", nullable = false)
+    private boolean isDeleted;
 
     @Override
     public boolean equals(Object o) {

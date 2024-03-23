@@ -20,6 +20,4 @@ public class Category extends BaseEntity {
     @Column(name = "name", nullable = false)
     private String name;
     private String description;
-    @Column(name = "is_deleted", nullable = false)
-    private boolean isDeleted;
 }

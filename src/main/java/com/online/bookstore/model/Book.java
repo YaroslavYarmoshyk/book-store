@@ -42,6 +42,4 @@ public class Book extends BaseEntity {
             inverseJoinColumns = @JoinColumn(name = "category_id")
     )
     private Set<Category> categories;
-    @Column(name = "is_deleted", nullable = false)
-    private boolean isDeleted;
 }

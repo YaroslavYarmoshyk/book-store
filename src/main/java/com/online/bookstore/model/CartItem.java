@@ -32,6 +32,4 @@ public class CartItem extends BaseEntity {
     private Book book;
     @Column(nullable = false)
     private int quantity;
-    @Column(name = "is_deleted", nullable = false)
-    private boolean isDeleted;
 }

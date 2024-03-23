@@ -48,8 +48,6 @@ public class Order extends BaseEntity {
     @EqualsAndHashCode.Exclude
     @OneToMany(mappedBy = "order", cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<OrderItem> orderItems = new HashSet<>();
-    @Column(name = "is_deleted", nullable = false)
-    private boolean isDeleted;
 
     public Order setOrderItems(final Set<OrderItem> orderItems) {
         this.orderItems = orderItems;

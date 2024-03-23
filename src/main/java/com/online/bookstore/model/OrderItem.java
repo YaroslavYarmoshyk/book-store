@@ -36,6 +36,4 @@ public class OrderItem extends BaseEntity {
     private Integer quantity;
     @Column(nullable = false)
     private BigDecimal price;
-    @Column(name = "is_deleted", nullable = false)
-    private boolean isDeleted;
 }

@@ -1,7 +1,6 @@
 package com.online.bookstore.model;
 
 import jakarta.persistence.CascadeType;
-import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.OneToMany;
@@ -33,6 +32,4 @@ public class ShoppingCart extends BaseEntity {
     @EqualsAndHashCode.Exclude
     @OneToMany(mappedBy = "shoppingCart", cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<CartItem> cartItems = new HashSet<>();
-    @Column(name = "is_deleted", nullable = false)
-    private boolean isDeleted;
 }
