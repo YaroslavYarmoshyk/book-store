@@ -55,3 +55,13 @@ The Book Store Spring Boot Application is designed to facilitate user registrati
 - **Admin/User**:
   - email: john@test.com
   - password: johnpass123
+
+## Running the Application with Docker Compose
+To run the application using Docker Compose, you can use the following command:
+```bash
+docker compose --profile backend up -d
+```
+To stop the application and remove the containers, networks, and volumes defined in your `compose.yaml` file, you can use the following command:
+```bash
+docker compose --profile backend down
+```

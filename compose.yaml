@@ -1,9 +1,30 @@
 services:
   postgres:
-    image: 'postgres:16.0'
+    image: postgres:16.0
+    profiles:
+      - db-only
+      - backend
+    env_file:
+      - ./.env
     environment:
-      - 'POSTGRES_USER=user'
-      - 'POSTGRES_PASSWORD=password'
-      - 'POSTGRES_DB=book-store'
+      - POSTGRES_USER=$DB_USERNAME
+      - POSTGRES_PASSWORD=$DB_PASSWORD
+      - POSTGRES_DB=$DB_DATABASE
     ports:
-      - '5432:5432'
+      - $POSTGRES_LOCAL_PORT:$POSTGRES_DOCKER_PORT
+  app:
+    depends_on:
+      - postgres
+    restart: on-failure
+    image: book-store:dev
+    profiles:
+      - backend
+    build: .
+    env_file: ./.env
+    ports:
+      - $SPRING_LOCAL_PORT:$SPRING_DOCKER_PORT
+    environment:
+      - DB_USERNAME=$DB_USERNAME
+      - DB_PASSWORD=$DB_PASSWORD
+      - DB_URL=$DB_URL_COMPOSE
+      - JWT_SECRET_KEY=$JWT_SECRET_KEY

@@ -20,10 +20,13 @@ spring:
     baseline-on-migrate: true
     baseline-description: 'init'
     baseline-version: 0
-
+  docker:
+    compose:
+      profiles:
+        active: db-only
 jwt:
   expirationTime: 86_400_000 # 24 hours in milliseconds
-  secretKey: strongsecretkey2323232egfewgwerggergergrferfe3!
+  secretKey: ${JWT_SECRET_KEY}
 
 system-configuration:
   public-endpoints: /api/auth/**, /swagger-ui/**, /v3/api-docs/**, /error
