@@ -2,9 +2,6 @@ package com.online.bookstore.model;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToMany;
@@ -22,15 +19,13 @@ import org.hibernate.annotations.SQLRestriction;
 @Getter
 @Setter
 @Accessors(chain = true)
-@EqualsAndHashCode(of = "id")
+@ToString(exclude = "categories")
+@EqualsAndHashCode(exclude = "categories", callSuper = true)
 @Entity
 @Table(name = "books")
 @SQLDelete(sql = "UPDATE books SET is_deleted = true WHERE id=?")
 @SQLRestriction(value = "is_deleted <> 'true'")
-public class Book {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+public class Book extends BaseEntity {
     @Column(nullable = false)
     private String title;
     @Column(nullable = false)
@@ -42,7 +37,6 @@ public class Book {
     private String description;
     @Column(name = "cover_image")
     private String coverImage;
-    @ToString.Exclude
     @ManyToMany
     @JoinTable(
             name = "books_categories",
@@ -50,6 +44,4 @@ public class Book {
             inverseJoinColumns = @JoinColumn(name = "category_id")
     )
     private Set<Category> categories;
-    @Column(name = "is_deleted", nullable = false)
-    private boolean isDeleted;
 }

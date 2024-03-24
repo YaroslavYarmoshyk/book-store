@@ -14,4 +14,6 @@ public interface ShoppingCartService {
                                        final UpdateCartItemRequestDto requestDto);
 
     ShoppingCartDto removeBookFromCart(final Long userId, final Long cartItemId);
+
+    void releaseCart(final Long shoppingCartId);
 }

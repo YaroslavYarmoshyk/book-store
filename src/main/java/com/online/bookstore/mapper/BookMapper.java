@@ -35,7 +35,7 @@ public interface BookMapper {
     @Named("bookFromId")
     default Book bookFromId(final Long id) {
         return Optional.ofNullable(id)
-                .map(bookId -> new Book().setId(bookId))
+                .map(bookId -> (Book) new Book().setId(bookId))
                 .orElse(null);
     }
 }

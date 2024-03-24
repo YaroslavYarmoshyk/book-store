@@ -8,6 +8,7 @@ import com.online.bookstore.mapper.BookMapper;
 import com.online.bookstore.model.Book;
 import com.online.bookstore.repository.BookRepository;
 import com.online.bookstore.service.BookService;
+import java.util.Collection;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -49,7 +50,7 @@ public class BookServiceImpl implements BookService {
         final List<Long> bookIds = bookPage.stream()
                 .map(Book::getId)
                 .toList();
-        final List<BookDto> booksByIds = mapper.toDto(bookRepository.findAllByIdIn(bookIds));
+        final List<BookDto> booksByIds = getBooksByIds(bookIds);
         return new PageImpl<>(booksByIds, pageable, bookPage.getTotalElements());
     }
 
@@ -60,6 +61,11 @@ public class BookServiceImpl implements BookService {
                 .orElseThrow(
                         () -> new EntityNotFoundException("Book by id: " + id + " was not found")
                 );
+    }
+
+    @Override
+    public List<BookDto> getBooksByIds(final Collection<Long> bookIds) {
+        return mapper.toDto(bookRepository.findAllByIdIn(bookIds));
     }
 
     @Override

@@ -2,7 +2,7 @@
 
 ## Application Overview
 
-The Book Store Spring Boot Application is designed to facilitate user registration, book browsing, and management functionalities. It incorporates Spring Security for authentication and authorization, ensuring secure access to various endpoints based on user roles.
+The Book Store Spring Boot Application is designed to facilitate user registration, book browsing, management functionalities, and now includes order processing features. It incorporates Spring Security for authentication and authorization, ensuring secure access to various endpoints based on user roles.
 
 ## Key Features
 
@@ -30,6 +30,17 @@ The Book Store Spring Boot Application is designed to facilitate user registrati
   - Send a GET request to `/api/cart` to retrieve their shopping cart.
   - Send a PUT request to `/api/cart/cart-items/{cartItemId}` to update the quantity of a book in the shopping cart.
   - Send a DELETE request to `/api/cart/cart-items/{cartItemId}` to remove a book from the shopping cart.
+
+- **Order Processing (User Use Cases)**: Users can place orders and view their order history. They can:
+  - Send a POST request to `/api/orders` to place an order.
+  - Send a GET request to `/api/orders` to retrieve their order history.
+
+- **Order Item Processing (User Use Cases)**: Users can place orders and view items within their orders. They can:
+  - Send a GET request to `/api/order-items/{itemId}` to retrieve a specific order item within an order.
+  - Send a GET request to `/api/order-items/by-order/{orderId}` to retrieve all order items for a specific order.
+
+- **Order Management (Admin Use Cases)**: Admins can manage orders by updating order status. They can:
+  - Send a PATCH request to `/api/orders/{id}` to update the status of an order.
 
 ## Test Users
 

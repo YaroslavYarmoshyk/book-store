@@ -2,9 +2,6 @@ package com.online.bookstore.model;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToMany;
@@ -24,16 +21,14 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 @Getter
 @Setter
-@EqualsAndHashCode(of = "id")
-@Entity
 @Accessors(chain = true)
+@ToString(exclude = "roles", callSuper = true)
+@EqualsAndHashCode(exclude = "roles", callSuper = true)
+@Entity
 @Table(name = "users")
 @SQLDelete(sql = "UPDATE users SET is_deleted = true WHERE id=?")
 @SQLRestriction(value = "is_deleted <> 'true'")
-public class User implements UserDetails {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+public class User extends BaseEntity implements UserDetails {
     @Column(nullable = false, unique = true)
     private String email;
     @Column(nullable = false)
@@ -44,9 +39,6 @@ public class User implements UserDetails {
     private String lastName;
     @Column(name = "shipping_address")
     private String shippingAddress;
-    @Column(name = "is_deleted")
-    private boolean isDeleted;
-    @ToString.Exclude
     @ManyToMany
     @JoinTable(
             name = "users_roles",
@@ -89,6 +81,6 @@ public class User implements UserDetails {
 
     @Override
     public boolean isEnabled() {
-        return !isDeleted;
+        return !super.isDeleted();
     }
 }
