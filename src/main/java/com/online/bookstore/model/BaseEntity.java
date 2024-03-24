@@ -35,7 +35,7 @@ public class BaseEntity {
 
     @Override
     public int hashCode() {
-        return 31;
+        return Objects.hash(id);
     }
 
     @SuppressWarnings("unchecked")

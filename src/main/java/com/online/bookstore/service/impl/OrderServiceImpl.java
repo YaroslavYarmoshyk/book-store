@@ -61,6 +61,14 @@ public class OrderServiceImpl implements OrderService {
         return orderMapper.toDto(savedOrder);
     }
 
+    @Override
+    public OrderDto updateOrderStatus(final Long orderId,
+                                      final UpdateOrderStatusRequestDto requestDto) {
+        final Order orderById = getOrderById(orderId);
+        orderById.setStatus(requestDto.status());
+        return orderMapper.toDto(orderRepository.save(orderById));
+    }
+
     private static Order getOrder(final Long userId,
                                   final String shippingAddress,
                                   final Set<OrderItem> orderItems) {
@@ -107,14 +115,6 @@ public class OrderServiceImpl implements OrderService {
                 .map(orderItem -> orderItem.getPrice()
                         .multiply(BigDecimal.valueOf(orderItem.getQuantity())))
                 .reduce(BigDecimal.ZERO, BigDecimal::add);
-    }
-
-    @Override
-    public OrderDto updateOrderStatus(final Long orderId,
-                                      final UpdateOrderStatusRequestDto requestDto) {
-        final Order orderById = getOrderById(orderId);
-        orderById.setStatus(requestDto.status());
-        return orderMapper.toDto(orderRepository.save(orderById));
     }
 
     private Order getOrderById(final Long orderId) {
