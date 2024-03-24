@@ -4,7 +4,9 @@ import com.online.bookstore.annotation.AdminAccessLevel;
 import com.online.bookstore.annotation.CurrentUserId;
 import com.online.bookstore.dto.order.CreateOrderRequestDto;
 import com.online.bookstore.dto.order.OrderDto;
+import com.online.bookstore.dto.order.OrderItemDto;
 import com.online.bookstore.dto.order.UpdateOrderStatusRequestDto;
+import com.online.bookstore.service.OrderItemService;
 import com.online.bookstore.service.OrderService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -25,6 +27,7 @@ import org.springframework.web.bind.annotation.RestController;
 @Tag(name = "Order management", description = "Endpoint for managing orders")
 public class OrderController {
     private final OrderService orderService;
+    private final OrderItemService orderItemService;
 
     @GetMapping
     @Operation(summary = "Get user orders", description = "Get user orders")
@@ -48,5 +51,14 @@ public class OrderController {
     public OrderDto updateOrderStatus(final @PathVariable Long id,
                                       final @RequestBody UpdateOrderStatusRequestDto status) {
         return orderService.updateOrderStatus(id, status);
+    }
+
+    @GetMapping(value = "/{id}/items")
+    @Operation(
+            summary = "Get order items by order ID",
+            description = "Get order items by order ID"
+    )
+    public List<OrderItemDto> getOrderItems(final @PathVariable Long id) {
+        return orderItemService.getItemsByOrderId(id);
     }
 }
