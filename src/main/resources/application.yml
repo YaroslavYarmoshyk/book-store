@@ -13,7 +13,6 @@ spring:
     show-sql: true
     hibernate:
       ddl-auto: validate
-    database: postgresql
   flyway:
     enabled: true
     user: ${DB_USERNAME}
