@@ -10,7 +10,7 @@ public class TestContainerConfiguration {
 
     @Bean
     @ServiceConnection
-    public PostgreSQLContainer<?> postgreSQLContainer() {
+    public PostgreSQLContainer<?> postgreSqlContainer() {
         return new PostgreSQLContainer<>("postgres:16.0");
     }
 }

@@ -1,11 +1,12 @@
 package com.online.bookstore.repository;
 
+import static org.assertj.core.api.Assertions.assertThat;
+
 import com.online.bookstore.model.Book;
 import com.online.bookstore.model.Category;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Stream;
-import static org.assertj.core.api.Assertions.assertThat;
 import org.assertj.core.api.SoftAssertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -31,13 +32,13 @@ class BookRepositoryTest {
     void findAllByCategoryId_WhenExists_ShouldReturnPageWithBooks(final Pageable pageable,
                                                                   final long categoryId,
                                                                   final long expectedNumOfElements,
-                                                                  final long expectedTotalBookCount) {
+                                                                  final long expectedTotalBooks) {
         final Page<Book> actual = bookRepository.findAllByCategoryId(pageable, categoryId);
 
         assertThat(actual.getPageable().getPageNumber()).isEqualTo(pageable.getPageNumber());
         assertThat(actual.getPageable().getPageSize()).isEqualTo(pageable.getPageSize());
         assertThat(actual.getNumberOfElements()).isEqualTo(expectedNumOfElements);
-        assertThat(actual.getTotalElements()).isEqualTo(expectedTotalBookCount);
+        assertThat(actual.getTotalElements()).isEqualTo(expectedTotalBooks);
         assertThat(actual.getContent())
                 .extracting(Book::getCategories)
                 .allSatisfy(categories -> assertThat(categories)
