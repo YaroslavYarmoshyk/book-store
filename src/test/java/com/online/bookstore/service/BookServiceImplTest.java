@@ -63,7 +63,7 @@ class BookServiceImplTest {
     }
 
     @Test
-    @DisplayName("Test update book by non existing ID")
+    @DisplayName("Test update book by non-existing ID")
     void updateBook_WhenNonExistingId_ThrowException() {
         final CreateBookRequestDto createBookRequest = mock(CreateBookRequestDto.class);
         when(bookRepository.existsById(anyLong())).thenReturn(false);
@@ -92,7 +92,7 @@ class BookServiceImplTest {
     }
 
     @Test
-    @DisplayName("Test delete book by non existing ID")
+    @DisplayName("Test delete book by non-existing ID")
     void deleteBook_WhenNonExistingId_ThrowException() {
         doThrow(new EntityNotFoundException("Book by id: " + NON_EXISTING_ID + " was not found"))
                 .when(bookService)
@@ -110,9 +110,9 @@ class BookServiceImplTest {
         when(bookDto.id()).thenReturn(EXISTING_ID);
         doReturn(bookDto).when(bookService).getBookById(EXISTING_ID);
 
-        final BookDto result = bookService.deleteBook(EXISTING_ID);
+        final BookDto actual = bookService.deleteBook(EXISTING_ID);
 
-        assertThat(result).isEqualTo(bookDto);
+        assertThat(actual).isEqualTo(bookDto);
         verify(bookRepository).deleteById(EXISTING_ID);
     }
 
@@ -147,9 +147,9 @@ class BookServiceImplTest {
         when(bookRepository.findById(NON_EXISTING_ID)).thenReturn(Optional.of(book));
         when(bookMapper.toDto(book)).thenReturn(bookDto);
 
-        final BookDto result = bookService.getBookById(NON_EXISTING_ID);
+        final BookDto actual = bookService.getBookById(NON_EXISTING_ID);
 
-        assertThat(result).isEqualTo(bookDto);
+        assertThat(actual).isEqualTo(bookDto);
     }
 
     @Test
@@ -174,9 +174,9 @@ class BookServiceImplTest {
         when(bookRepository.findAllByIdIn(ids)).thenReturn(List.of(book1, book2));
         when(bookMapper.toDto(List.of(book1, book2))).thenReturn(List.of(bookDto1, bookDto2));
 
-        final List<BookDto> result = bookService.getBooksByIds(ids);
+        final List<BookDto> actual = bookService.getBooksByIds(ids);
 
-        assertThat(result).containsExactlyInAnyOrder(bookDto1, bookDto2);
+        assertThat(actual).containsExactlyInAnyOrder(bookDto1, bookDto2);
     }
 
     @Test
@@ -192,10 +192,10 @@ class BookServiceImplTest {
         when(bookMapper.toDtoWithoutCategories(book1)).thenReturn(bookDto1);
         when(bookMapper.toDtoWithoutCategories(book2)).thenReturn(bookDto2);
 
-        final var result = bookService.getAllBooksByCategoryId(pageable, EXISTING_ID);
+        final var actual = bookService.getAllBooksByCategoryId(pageable, EXISTING_ID);
 
-        assertThat(result.getTotalElements()).isEqualTo(2);
-        assertThat(result.getContent()).containsExactlyInAnyOrder(bookDto1, bookDto2);
+        assertThat(actual.getTotalElements()).isEqualTo(2);
+        assertThat(actual.getContent()).containsExactlyInAnyOrder(bookDto1, bookDto2);
     }
 
 }
