@@ -28,7 +28,14 @@ public interface BookMapper {
                 .collect(Collectors.toSet());
     }
 
+    @Mapping(target = "categories", source = "categoryIds")
     Book toModel(final CreateBookRequestDto requestDto);
+
+    default Set<Category> mapIdsToCategories(final Set<Long> categoryIds) {
+        return categoryIds.stream()
+                .map(id -> (Category) new Category().setId(id))
+                .collect(Collectors.toSet());
+    }
 
     BookWithoutCategoriesDto toDtoWithoutCategories(final Book book);
 

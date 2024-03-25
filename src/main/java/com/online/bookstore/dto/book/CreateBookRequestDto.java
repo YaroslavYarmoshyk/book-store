@@ -1,9 +1,11 @@
 package com.online.bookstore.dto.book;
 
 import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import java.math.BigDecimal;
+import java.util.Set;
 import org.hibernate.validator.constraints.ISBN;
 
 public record CreateBookRequestDto(
@@ -22,6 +24,8 @@ public record CreateBookRequestDto(
         @NotNull
         @Size(max = 1000)
         String description,
-        String coverImage
+        String coverImage,
+        @NotEmpty
+        Set<Long> categoryIds
 ) {
 }
