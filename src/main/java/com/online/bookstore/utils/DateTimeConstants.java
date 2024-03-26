@@ -1,4 +1,4 @@
-package com.online.bookstore.util;
+package com.online.bookstore.utils;
 
 import java.time.ZoneId;
 
