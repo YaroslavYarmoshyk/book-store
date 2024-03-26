@@ -13,4 +13,4 @@ spring:
     enabled: false
 
 system-configuration:
-  public-endpoints: /api/auth/register, /swagger-ui/**, /v3/api-docs/**
+  public-endpoints: /api/auth/register, /swagger-ui/**, /v3/api-docs/**, /error
