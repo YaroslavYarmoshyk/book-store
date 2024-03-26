@@ -1,4 +1,7 @@
 spring:
+  sql:
+    init:
+      mode: always
   datasource:
     username: user
     password: password
@@ -6,8 +9,8 @@ spring:
   jpa:
     open-in-view: false
     show-sql: true
-    hibernate:
-      ddl-auto: validate
+  flyway:
+    enabled: false
 
 system-configuration:
   public-endpoints: /api/auth/register, /swagger-ui/**, /v3/api-docs/**
