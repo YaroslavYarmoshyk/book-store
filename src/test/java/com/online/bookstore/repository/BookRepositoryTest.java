@@ -1,12 +1,7 @@
 package com.online.bookstore.repository;
 
-import static org.assertj.core.api.Assertions.assertThat;
-
 import com.online.bookstore.model.Book;
 import com.online.bookstore.model.Category;
-import java.util.List;
-import java.util.Optional;
-import java.util.stream.Stream;
 import org.assertj.core.api.SoftAssertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -19,9 +14,24 @@ import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.test.context.jdbc.Sql;
+
+import java.util.List;
+import java.util.Optional;
+import java.util.stream.Stream;
+
+import static org.assertj.core.api.Assertions.assertThat;
 
 @DataJpaTest
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
+@Sql(
+        scripts = "/scripts/add-books-with-categories.sql",
+        executionPhase = Sql.ExecutionPhase.BEFORE_TEST_CLASS
+)
+@Sql(
+        scripts = "/scripts/remove-books-with-categories.sql",
+        executionPhase = Sql.ExecutionPhase.AFTER_TEST_CLASS
+)
 class BookRepositoryTest {
     @Autowired
     private BookRepository bookRepository;
@@ -65,8 +75,8 @@ class BookRepositoryTest {
         final SoftAssertions softy = new SoftAssertions();
         softy.assertThat(booksByIds).isNotEmpty();
         softy.assertThat(booksByIds)
-                        .extracting(Book::getCategories)
-                                .isNotEmpty();
+                .extracting(Book::getCategories)
+                .isNotEmpty();
         softy.assertAll();
     }
 
