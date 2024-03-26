@@ -188,5 +188,3 @@ VALUES
     (14, 1), (14, 7),
     -- The Adventures of Sherlock Holmes
     (15, 1), (15, 4);
-
-
