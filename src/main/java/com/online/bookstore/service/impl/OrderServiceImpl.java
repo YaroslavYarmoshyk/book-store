@@ -1,6 +1,6 @@
 package com.online.bookstore.service.impl;
 
-import static com.online.bookstore.utils.DateTimeConstants.DEFAULT_ZONE_ID;
+import static com.online.bookstore.constants.DateTimeConstants.DEFAULT_ZONE_ID;
 
 import com.online.bookstore.dto.book.BookDto;
 import com.online.bookstore.dto.cart.CartItemDto;
