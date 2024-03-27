@@ -21,14 +21,6 @@ public final class JacksonUtils {
         }
     }
 
-    public static <T> String toJson(final T object) {
-        try {
-            return OBJECT_MAPPER.writeValueAsString(object);
-        } catch (final JsonProcessingException e) {
-            throw new SystemException(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
-        }
-    }
-
     public static <T> Page<T> parseJsonPage(final String jsonContent, final Class<T> clazz) {
         try {
             final JavaType type = OBJECT_MAPPER.getTypeFactory()
@@ -39,6 +31,14 @@ public final class JacksonUtils {
                     "Cannot parse content",
                     HttpStatus.INTERNAL_SERVER_ERROR
             );
+        }
+    }
+
+    public static <T> String toJson(final T object) {
+        try {
+            return OBJECT_MAPPER.writeValueAsString(object);
+        } catch (final JsonProcessingException e) {
+            throw new SystemException(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 }
