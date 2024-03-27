@@ -1,6 +1,6 @@
 package com.online.bookstore.dto.order;
 
-import static com.online.bookstore.util.DateTimeConstants.DEFAULT_DATE_TIME_FORMAT;
+import static com.online.bookstore.constants.DateTimeConstants.DEFAULT_DATE_TIME_FORMAT;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.online.bookstore.model.enumeration.OrderStatus;

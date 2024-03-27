@@ -1,6 +1,6 @@
 package com.online.bookstore.security;
 
-import com.github.dockerjava.api.exception.NotFoundException;
+import com.online.bookstore.exception.EntityNotFoundException;
 import com.online.bookstore.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -16,8 +16,8 @@ public class CustomUserDetailsService implements UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(final String username) throws UsernameNotFoundException {
         return userRepository.findByEmail(username)
-                .orElseThrow(
-                        () -> new NotFoundException("User was not found by email: " + username)
+                .orElseThrow(() -> new EntityNotFoundException(
+                        "User was not found by email: " + username)
                 );
     }
 }

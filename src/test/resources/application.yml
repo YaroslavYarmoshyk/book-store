@@ -1,14 +1,21 @@
 spring:
+  data:
+    web:
+      pageable:
+        one-indexed-parameters: true
+        default-page-size: 5
+  sql:
+    init:
+      mode: always
   datasource:
     username: user
     password: password
-    url: jdbc:postgresql://localhost:5432/book-store
+    url: jdbc:tc:postgresql:16.0:///book-store
   jpa:
     open-in-view: false
     show-sql: true
-    hibernate:
-      ddl-auto: create-drop
-    database: postgresql
+  flyway:
+    enabled: false
 
 system-configuration:
-  public-endpoints: /api/auth/register, /swagger-ui/**, /v3/api-docs/**
+  public-endpoints: /api/auth/register, /swagger-ui/**, /v3/api-docs/**, /error
