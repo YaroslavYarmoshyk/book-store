@@ -9,6 +9,8 @@ import com.online.bookstore.exception.SystemException;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 
+import java.util.List;
+
 public final class JacksonUtils {
     private static final ObjectMapper OBJECT_MAPPER = new ObjectMapper()
             .registerModule(new JavaTimeModule());
@@ -25,6 +27,20 @@ public final class JacksonUtils {
         try {
             final JavaType type = OBJECT_MAPPER.getTypeFactory()
                     .constructParametricType(CustomPageImpl.class, clazz);
+            return OBJECT_MAPPER.readValue(jsonContent, type);
+        } catch (final JsonProcessingException e) {
+            throw new SystemException(
+                    "Cannot parse content",
+                    HttpStatus.INTERNAL_SERVER_ERROR
+            );
+        }
+    }
+
+    public static <T> List<T> parseJsonList(final String jsonContent,
+                                            final Class<T> clazz) {
+        try {
+            final JavaType type = OBJECT_MAPPER.getTypeFactory()
+                    .constructCollectionType(List.class, clazz);
             return OBJECT_MAPPER.readValue(jsonContent, type);
         } catch (final JsonProcessingException e) {
             throw new SystemException(
