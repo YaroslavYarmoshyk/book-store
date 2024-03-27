@@ -23,7 +23,7 @@ public final class TestDataFactory {
     public static final CreateBookRequestDto CREATE_THE_GREAT_GATSBY_BOOK = new CreateBookRequestDto(
             "The Great Gatsby",
             "F. Scott Fitzgerald",
-            "978-0-545-01022-1",
+            "9781402894626",
             BigDecimal.valueOf(12.50).setScale(2, RoundingMode.HALF_UP),
             "A tragic love story set in the Jazz Age.",
             "https://example.com/thegreatgatsby.jpg",

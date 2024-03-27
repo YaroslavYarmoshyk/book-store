@@ -17,6 +17,7 @@ import org.springframework.http.HttpMethod;
 import org.springframework.http.MediaType;
 import org.springframework.security.test.context.support.WithAnonymousUser;
 import org.springframework.security.test.context.support.WithMockUser;
+import org.springframework.test.annotation.Rollback;
 import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
@@ -53,36 +54,36 @@ class BookControllerTest {
     private MockMvc mockMvc;
 
     @Test
-    @DisplayName("Test book listing default page")
+    @DisplayName("Test book listing on the default page")
     @WithMockUser(roles = "USER")
     void getAllBooks_WithoutPageSpecification_ReturnsDefaultPage() throws Exception {
         final MvcResult mvcResult = mockMvc.perform(get("/api/books"))
                 .andExpectAll(status().isOk())
                 .andReturn();
-        final String response = mvcResult.getResponse().getContentAsString();
-        final Page<BookDto> bookPage = JacksonUtils.parseJsonPage(response, BookDto.class);
+        final String jsonResponse = mvcResult.getResponse().getContentAsString();
+        final Page<BookDto> actual = JacksonUtils.parseJsonPage(jsonResponse, BookDto.class);
 
-        assertThat(bookPage.getTotalElements()).isEqualTo(15);
-        assertThat(bookPage.getNumberOfElements()).isEqualTo(5);
-        assertThat(bookPage.getContent())
+        assertThat(actual.getTotalElements()).isEqualTo(15);
+        assertThat(actual.getNumberOfElements()).isEqualTo(5);
+        assertThat(actual.getContent())
                 .contains(THE_GREAT_GATSBY_BOOK)
                 .extracting(BookDto::title)
                 .contains("To Kill a Mockingbird");
     }
 
     @Test
-    @DisplayName("Test book listing specified page")
+    @DisplayName("Test book listing on the specified page")
     @WithMockUser(roles = "USER")
     void getAllBooks_SpecifiedPage_ReturnsValidPage() throws Exception {
         final MvcResult mvcResult = mockMvc.perform(get("/api/books?page=2&size=3"))
                 .andExpectAll(status().isOk())
                 .andReturn();
-        final String response = mvcResult.getResponse().getContentAsString();
-        final Page<BookDto> bookPage = JacksonUtils.parseJsonPage(response, BookDto.class);
+        final String jsonResponse = mvcResult.getResponse().getContentAsString();
+        final Page<BookDto> actual = JacksonUtils.parseJsonPage(jsonResponse, BookDto.class);
 
-        assertThat(bookPage.getTotalElements()).isEqualTo(15);
-        assertThat(bookPage.getNumberOfElements()).isEqualTo(3);
-        assertThat(bookPage.getContent())
+        assertThat(actual.getTotalElements()).isEqualTo(15);
+        assertThat(actual.getNumberOfElements()).isEqualTo(3);
+        assertThat(actual.getContent())
                 .contains(THE_GREAT_GATSBY_BOOK)
                 .extracting(BookDto::title)
                 .containsExactly(
@@ -99,8 +100,8 @@ class BookControllerTest {
         final MvcResult mvcResult = mockMvc.perform(get("/api/books/4"))
                 .andExpectAll(status().isOk())
                 .andReturn();
-        final String response = mvcResult.getResponse().getContentAsString();
-        final BookDto actual = JacksonUtils.parseJson(response, BookDto.class);
+        final String jsonResponse = mvcResult.getResponse().getContentAsString();
+        final BookDto actual = JacksonUtils.parseJson(jsonResponse, BookDto.class);
 
         assertThat(actual).isEqualTo(THE_GREAT_GATSBY_BOOK);
     }
@@ -151,24 +152,36 @@ class BookControllerTest {
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpectAll(status().is4xxClientError())
                 .andReturn();
-        final ApiError apiErrorDuringCreation = JacksonUtils.parseJson(
-                createMvcResult.getResponse().getContentAsString(),
-                ApiError.class
-        );
+        final var createJsonResponse = createMvcResult.getResponse().getContentAsString();
+        final var apiErrorCreation = JacksonUtils.parseJson(createJsonResponse, ApiError.class);
         final MvcResult updateMvcResult = mockMvc.perform(put("/api/books/4")
                         .content(invalidJsonRequest)
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpectAll(status().is4xxClientError())
                 .andReturn();
-        final ApiError apiErrorDuringUpdate = JacksonUtils.parseJson(
-                updateMvcResult.getResponse().getContentAsString(),
-                ApiError.class
-        );
+        final var updateJsonResponse = updateMvcResult.getResponse().getContentAsString();
+        final var apiErrorUpdate = JacksonUtils.parseJson(updateJsonResponse, ApiError.class);
 
-        assertThat(apiErrorDuringCreation.errors())
+        assertThat(apiErrorCreation.errors())
                 .containsExactlyInAnyOrderElementsOf(expectedErrors);
-        assertThat(apiErrorDuringUpdate.errors())
+        assertThat(apiErrorUpdate.errors())
                 .containsExactlyInAnyOrderElementsOf(expectedErrors);
+    }
+
+    @Test
+    @WithMockUser(roles = "ADMIN")
+    @Rollback
+    void createBook_ValidRequest_Success() throws Exception {
+        final MvcResult mvcResult = mockMvc.perform(post("/api/books")
+                        .content(JacksonUtils.toJson(CREATE_THE_GREAT_GATSBY_BOOK))
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isCreated())
+                .andReturn();
+        final String jsonResponse = mvcResult.getResponse().getContentAsString();
+        final BookDto actual = JacksonUtils.parseJson(jsonResponse, BookDto.class);
+        assertThat(actual).usingRecursiveComparison()
+                .ignoringFields("id")
+                .isEqualTo(CREATE_THE_GREAT_GATSBY_BOOK);
     }
 
     private static Stream<Arguments> securedEndpointsArgumentsProvider() {
