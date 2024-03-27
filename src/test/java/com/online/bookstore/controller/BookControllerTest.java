@@ -51,7 +51,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
         executionPhase = Sql.ExecutionPhase.AFTER_TEST_CLASS
 )
 class BookControllerTest {
-    public static final String BOOKS_API = "/api/books";
+    private static final String BOOKS_API = "/api/books";
     @Autowired
     private MockMvc mockMvc;
 
@@ -142,10 +142,10 @@ class BookControllerTest {
     }
 
     @ParameterizedTest(name = "[{index}] = {0}")
-    @MethodSource(value = "invalidCreateBookRequestArgumentsProvider")
+    @MethodSource(value = "invalidBookRequestArgumentsProvider")
     @DisplayName("Test for invalid request when creating or updating book")
     @WithMockUser(roles = "ADMIN")
-    void createOrUpdateBoo_InvalidRequest_ReturnsBadRequest(final CreateBookRequestDto invalidReq,
+    void createOrUpdateBook_InvalidRequest_ReturnsBadRequest(final CreateBookRequestDto invalidReq,
                                                             final List<String> expectedErrors)
             throws Exception {
         final String invalidJsonRequest = JacksonUtils.toJson(invalidReq);
@@ -234,8 +234,8 @@ class BookControllerTest {
                 Arguments.of(named("Get all books", BOOKS_API), HttpMethod.GET),
                 Arguments.of(named("Get book by ID", BOOKS_API + "/1"), HttpMethod.GET),
                 Arguments.of(named("Create a book", BOOKS_API), HttpMethod.POST),
-                Arguments.of(named("Update book by ID", "/api/books/1"), HttpMethod.PUT),
-                Arguments.of(named("Delete book by ID", "/api/books/1"), HttpMethod.DELETE)
+                Arguments.of(named("Update book by ID", BOOKS_API + "/1"), HttpMethod.PUT),
+                Arguments.of(named("Delete book by ID", BOOKS_API + "/1"), HttpMethod.DELETE)
         );
     }
 
@@ -247,7 +247,7 @@ class BookControllerTest {
         );
     }
 
-    private static Stream<Arguments> invalidCreateBookRequestArgumentsProvider() {
+    private static Stream<Arguments> invalidBookRequestArgumentsProvider() {
         final List<String> expectedNullParameterErrors = List.of(
                 "title must not be null",
                 "price must not be null",
