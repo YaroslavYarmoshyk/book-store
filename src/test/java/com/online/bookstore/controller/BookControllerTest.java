@@ -52,6 +52,12 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 )
 class BookControllerTest {
     private static final String BOOKS_API = "/api/books";
+    private static final String FIRST_BOOK_API = "/api/books/1";
+    private static final String FOURTH_BOOK_API = "/api/books/4";
+    private static final String NON_EXISTING_BOOK_API = "/api/books/100";
+    private static final String THE_CATCHER_IN_THE_RYE_TITLE = "The Catcher in the Rye";
+    private static final String THE_GREAT_GATSBY_TITLE = "The Great Gatsby";
+    private static final String TO_THE_LIGHTHOUSE_TITLE = "To the Lighthouse";
     @Autowired
     private MockMvc mockMvc;
 
@@ -89,9 +95,9 @@ class BookControllerTest {
                 .contains(THE_GREAT_GATSBY_BOOK)
                 .extracting(BookDto::title)
                 .containsExactly(
-                        "The Great Gatsby",
-                        "The Catcher in the Rye",
-                        "To the Lighthouse"
+                        THE_GREAT_GATSBY_TITLE,
+                        THE_CATCHER_IN_THE_RYE_TITLE,
+                        TO_THE_LIGHTHOUSE_TITLE
                 );
     }
 
@@ -99,7 +105,7 @@ class BookControllerTest {
     @DisplayName("Test get book by existing ID")
     @WithMockUser(roles = "USER")
     void getBookById_WithExistingId_Success() throws Exception {
-        final MvcResult mvcResult = mockMvc.perform(get(BOOKS_API + "/4"))
+        final MvcResult mvcResult = mockMvc.perform(get(FOURTH_BOOK_API))
                 .andExpectAll(status().isOk())
                 .andReturn();
         final String jsonResponse = mvcResult.getResponse().getContentAsString();
@@ -112,7 +118,7 @@ class BookControllerTest {
     @DisplayName("Test get book by non-existing ID")
     @WithMockUser(roles = "USER")
     void getBookById_WithNonExistingId_Failure() throws Exception {
-        mockMvc.perform(get("/api/books/400"))
+        mockMvc.perform(get(NON_EXISTING_BOOK_API))
                 .andExpectAll(status().is4xxClientError())
                 .andReturn();
     }
@@ -156,7 +162,7 @@ class BookControllerTest {
                 .andReturn();
         final var createJsonResponse = createMvcResult.getResponse().getContentAsString();
         final var apiErrorCreation = JacksonUtils.parseJson(createJsonResponse, ApiError.class);
-        final MvcResult updateMvcResult = mockMvc.perform(put(BOOKS_API + "/4")
+        final MvcResult updateMvcResult = mockMvc.perform(put(FOURTH_BOOK_API)
                         .content(invalidJsonRequest)
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpectAll(status().is4xxClientError())
@@ -192,7 +198,7 @@ class BookControllerTest {
     @WithMockUser(roles = "ADMIN")
     @Rollback
     void updateBook_ValidRequest_Success() throws Exception {
-        final MvcResult mvcResult = mockMvc.perform(put(BOOKS_API + "/1")
+        final MvcResult mvcResult = mockMvc.perform(put(FIRST_BOOK_API)
                         .content(JacksonUtils.toJson(CREATE_THE_GREAT_GATSBY_BOOK))
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
@@ -210,7 +216,7 @@ class BookControllerTest {
     @WithMockUser(roles = "ADMIN")
     @Rollback
     void deleteBook_ByExistingId_Success() throws Exception {
-        final MvcResult mvcResult = mockMvc.perform(delete(BOOKS_API + "/4"))
+        final MvcResult mvcResult = mockMvc.perform(delete(FOURTH_BOOK_API))
                 .andExpect(status().isOk())
                 .andReturn();
         final String jsonResponse = mvcResult.getResponse().getContentAsString();
@@ -224,7 +230,7 @@ class BookControllerTest {
     @WithMockUser(roles = "ADMIN")
     @Rollback
     void deleteBook_ByExistingId_Failure() throws Exception {
-        mockMvc.perform(delete(BOOKS_API + "/100"))
+        mockMvc.perform(delete(NON_EXISTING_BOOK_API))
                 .andExpect(status().is4xxClientError())
                 .andReturn();
     }
@@ -232,18 +238,18 @@ class BookControllerTest {
     private static Stream<Arguments> securedEndpointsArgumentsProvider() {
         return java.util.stream.Stream.of(
                 Arguments.of(named("Get all books", BOOKS_API), HttpMethod.GET),
-                Arguments.of(named("Get book by ID", BOOKS_API + "/1"), HttpMethod.GET),
+                Arguments.of(named("Get book by ID", FIRST_BOOK_API), HttpMethod.GET),
                 Arguments.of(named("Create a book", BOOKS_API), HttpMethod.POST),
-                Arguments.of(named("Update book by ID", BOOKS_API + "/1"), HttpMethod.PUT),
-                Arguments.of(named("Delete book by ID", BOOKS_API + "/1"), HttpMethod.DELETE)
+                Arguments.of(named("Update book by ID", FIRST_BOOK_API), HttpMethod.PUT),
+                Arguments.of(named("Delete book by ID", FIRST_BOOK_API), HttpMethod.DELETE)
         );
     }
 
     private static Stream<Arguments> adminEndpointsArgumentsProvider() {
         return java.util.stream.Stream.of(
                 Arguments.of(named("Create a book", BOOKS_API), HttpMethod.POST),
-                Arguments.of(named("Update book by ID", BOOKS_API + "/1"), HttpMethod.PUT),
-                Arguments.of(named("Delete book by ID", BOOKS_API + "/1"), HttpMethod.DELETE)
+                Arguments.of(named("Update book by ID", FIRST_BOOK_API), HttpMethod.PUT),
+                Arguments.of(named("Delete book by ID", FIRST_BOOK_API), HttpMethod.DELETE)
         );
     }
 

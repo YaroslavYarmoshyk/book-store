@@ -52,6 +52,11 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 )
 class CategoryControllerTest {
     private static final String CATEGORIES_API = "/api/categories";
+    private static final String FIRST_CATEGORY_API = "/api/categories/1";
+    private static final String SECOND_CATEGORY_API = "/api/categories/2";
+    private static final String NON_EXISTING_CATEGORY_API = "/api/categories/100";
+    private static final String BOOKS_BY_THIRD_CATEGORY_API = "/api/categories/3/books";
+    private static final String BOOKS_BY_NON_EXISTING_CATEGORY_API = "/api/categories/100/books";
     @Autowired
     private MockMvc mockMvc;
 
@@ -73,7 +78,7 @@ class CategoryControllerTest {
     @DisplayName("Test get category by existing ID")
     @WithMockUser(roles = "USER")
     void getCategoryById_WithExistingId_Success() throws Exception {
-        final MvcResult mvcResult = mockMvc.perform(get(CATEGORIES_API + "/1"))
+        final MvcResult mvcResult = mockMvc.perform(get(FIRST_CATEGORY_API))
                 .andExpectAll(status().isOk())
                 .andReturn();
         final String jsonResponse = mvcResult.getResponse().getContentAsString();
@@ -86,7 +91,7 @@ class CategoryControllerTest {
     @DisplayName("Test get category by non-existing ID")
     @WithMockUser(roles = "USER")
     void getCategoryById_WithNonExistingId_Failure() throws Exception {
-        mockMvc.perform(get(CATEGORIES_API + "/100"))
+        mockMvc.perform(get(NON_EXISTING_CATEGORY_API))
                 .andExpectAll(status().is4xxClientError())
                 .andReturn();
     }
@@ -95,7 +100,7 @@ class CategoryControllerTest {
     @DisplayName("Test get all books by existing category ID")
     @WithMockUser(roles = "USER")
     void getAllBooksByCategoryId_WithExistingId_ReturnsPageWithContents() throws Exception {
-        final MvcResult mvcResult = mockMvc.perform(get(CATEGORIES_API + "/3/books"))
+        final MvcResult mvcResult = mockMvc.perform(get(BOOKS_BY_THIRD_CATEGORY_API))
                 .andExpectAll(status().isOk())
                 .andReturn();
         final String jsonResponse = mvcResult.getResponse().getContentAsString();
@@ -112,7 +117,7 @@ class CategoryControllerTest {
     @DisplayName("Test get all books by non-existing category ID")
     @WithMockUser(roles = "USER")
     void getAllBooksByCategoryId_WithNonExistingId_ReturnsEmptyPage() throws Exception {
-        final MvcResult mvcResult = mockMvc.perform(get(CATEGORIES_API + "/300/books"))
+        final MvcResult mvcResult = mockMvc.perform(get(BOOKS_BY_NON_EXISTING_CATEGORY_API))
                 .andExpectAll(status().isOk())
                 .andReturn();
         final String jsonResponse = mvcResult.getResponse().getContentAsString();
@@ -128,7 +133,7 @@ class CategoryControllerTest {
     @WithMockUser(roles = "ADMIN")
     @Rollback
     void deleteCategory_WithExistingId_Success() throws Exception {
-        final MvcResult mvcResult = mockMvc.perform(delete(CATEGORIES_API + "/1"))
+        final MvcResult mvcResult = mockMvc.perform(delete(FIRST_CATEGORY_API))
                 .andExpectAll(status().isOk())
                 .andReturn();
         final String jsonResponse = mvcResult.getResponse().getContentAsString();
@@ -161,7 +166,7 @@ class CategoryControllerTest {
     @WithMockUser(roles = "ADMIN")
     @Rollback
     void updateCategory_ValidRequest_Success() throws Exception {
-        final MvcResult mvcResult = mockMvc.perform(put(CATEGORIES_API + "/2")
+        final MvcResult mvcResult = mockMvc.perform(put(SECOND_CATEGORY_API)
                         .content(JacksonUtils.toJson(CREATE_HISTORICAL_FICTION_CATEGORY))
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
@@ -190,7 +195,7 @@ class CategoryControllerTest {
                 .andReturn();
         final var createJsonResponse = createMvcResult.getResponse().getContentAsString();
         final var apiErrorCreation = JacksonUtils.parseJson(createJsonResponse, ApiError.class);
-        final MvcResult updateMvcResult = mockMvc.perform(put(CATEGORIES_API + "/1")
+        final MvcResult updateMvcResult = mockMvc.perform(put(FIRST_CATEGORY_API)
                         .content(invalidJsonRequest)
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpectAll(status().is4xxClientError())
@@ -250,15 +255,15 @@ class CategoryControllerTest {
                 Arguments.of(named("Get all categories",
                         CATEGORIES_API), HttpMethod.GET),
                 Arguments.of(named("Get category by ID",
-                        CATEGORIES_API + "/1"), HttpMethod.GET),
+                        FIRST_CATEGORY_API), HttpMethod.GET),
                 Arguments.of(named("Get all books by category ID",
-                        CATEGORIES_API + "/1/books"), HttpMethod.GET),
+                        FIRST_CATEGORY_API), HttpMethod.GET),
                 Arguments.of(named("Create a category",
                         CATEGORIES_API), HttpMethod.POST),
                 Arguments.of(named("Update category by ID",
-                        CATEGORIES_API + "/1"), HttpMethod.PUT),
+                        FIRST_CATEGORY_API), HttpMethod.PUT),
                 Arguments.of(named("Delete category by ID",
-                        CATEGORIES_API + "/1"), HttpMethod.DELETE)
+                        FIRST_CATEGORY_API), HttpMethod.DELETE)
         );
     }
 
@@ -267,9 +272,9 @@ class CategoryControllerTest {
                 Arguments.of(named("Create a category",
                         CATEGORIES_API), HttpMethod.POST),
                 Arguments.of(named("Update category by ID",
-                        CATEGORIES_API + "/1"), HttpMethod.PUT),
+                        FIRST_CATEGORY_API), HttpMethod.PUT),
                 Arguments.of(named("Delete category by ID",
-                        CATEGORIES_API + "/1"), HttpMethod.DELETE)
+                        FIRST_CATEGORY_API), HttpMethod.DELETE)
         );
     }
 
