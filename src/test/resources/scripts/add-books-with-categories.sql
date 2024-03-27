@@ -51,6 +51,10 @@ VALUES
     (9,'Adventure', 'Works involving exciting, unusual, or dangerous experiences.'),
     (10,'Philosophical', 'Works exploring fundamental questions about existence, knowledge, values, reason, mind, and language.');
 
+-- Update sequences
+SELECT setval('books_id_seq', (SELECT MAX(id) FROM books));
+SELECT setval('categories_id_seq', (SELECT MAX(id) FROM categories));
+
 INSERT INTO books_categories (book_id, category_id)
 VALUES
     -- To Kill a Mockingbird
