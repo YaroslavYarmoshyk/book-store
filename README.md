@@ -4,6 +4,28 @@
 
 The Book Store Spring Boot Application is designed to facilitate user registration, book browsing, management functionalities, and now includes order processing features. It incorporates Spring Security for authentication and authorization, ensuring secure access to various endpoints based on user roles.
 
+## Technologies and Tools Used
+
+This project is built with a variety of technologies and tools to provide a robust and scalable online bookstore. Here are some of the key technologies used:
+
+- **Java**: The main programming language used for developing the application.
+
+- **Spring Boot**: This framework is used to create stand-alone, production-grade Spring-based applications with minimal effort. It simplifies the setup of Spring and third-party libraries.
+
+- **Spring Security**: This is used for authentication and access-control features. In this project, it's used to secure the REST APIs.
+
+- **Spring Data JPA**: This is used for easier data access and manipulation by creating repository implementations automatically, at runtime, from a repository interface.
+
+- **Swagger**: This tool is used for designing, building, and documenting RESTful APIs. It provides a user-friendly interface to interact with the API and understand its capabilities.
+
+- **SQL**: The language used for interacting with the database.
+
+- **Maven**: This tool is used for managing project dependencies and building the project.
+
+- **JUnit and Mockito**: These are used for unit testing and mocking dependencies.
+
+- **IntelliJ IDEA**: The integrated development environment (IDE) used for developing this application.
+
 ## Key Features
 
 - **User Registration**: Users can register for an account by providing necessary details via a POST request to `/api/auth/register`. This functionality is available for non-authenticated users.
